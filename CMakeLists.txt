@@ -4,7 +4,7 @@ project(DynamicObjectDetection)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# 1. STANDART ARAMA (Windows/Normal Linux)
+# 1. STANDARD SEARCH (Windows/Standard Linux)
 find_package(OpenCV QUIET)
 
 if(OpenCV_FOUND)
@@ -12,17 +12,17 @@ if(OpenCV_FOUND)
     include_directories(${OpenCV_INCLUDE_DIRS})
     set(LIBS ${OpenCV_LIBRARIES})
 else()
-    # 2. VLAB/MATLAB ÖZEL YOLLARI (Zorunlu Fallback)
+    # 2. VLAB/MATLAB SPECIFIC PATHS (Mandatory Fallback)
     message(STATUS "Standard OpenCV not found. Using DEI VLAB specific paths...")
     
     set(VLAB_ROOT "/usr/local/MATLAB/R2025b/toolbox/images/opencv/opencvcg")
     set(VLAB_BIN "${VLAB_ROOT}/bin/glnxa64")
     
-    # Tüm olası include klasörlerini ekliyoruz
+    # Adding all possible include directories
     include_directories("${VLAB_ROOT}/include")
     include_directories("${VLAB_ROOT}/include/opencv4")
     
-    # Kütüphaneleri TAM YOL ile veriyoruz (Linker hatalarını aşmak için en garanti yol)
+    # Providing FULL PATH for libraries (The safest way to avoid linker errors)
     set(LIBS 
         "${VLAB_BIN}/libopencv_imgcodecs.so"
         "${VLAB_BIN}/libopencv_core.so"
